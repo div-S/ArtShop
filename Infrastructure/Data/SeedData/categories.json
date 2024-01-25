@@ -1,0 +1,30 @@
+[
+  {
+    "Id": 1,
+    "Name": "Gouache"
+  },
+  {
+    "Id": 2,
+    "Name": "Watercolor"
+  },
+  {
+    "Id": 3,
+    "Name": "Acrylic"
+  },
+  {
+    "Id": 4,
+    "Name": "Oil"
+  },
+  {
+    "Id": 5,
+    "Name": "Charcoal"
+  },
+  {
+    "Id": 6,
+    "Name": "MixedMedia"
+  },
+  {
+    "Id": 7,
+    "Name": "Traditional"
+  }
+ ]
