@@ -18,16 +18,85 @@ namespace ArtShop.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetProducts()
+        [ProducesResponseType(typeof(Product), 200)]
+        [ProducesResponseType(500)]
+        public ActionResult GetProducts()
         {
-            var products = await _repository.GetProductAsync();
-            return Ok(products);
+            try
+            {
+                var products = _repository.GetProduct();
+                return Ok(products);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, ex);
+            }
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id) 
+        [ProducesResponseType(typeof(Product), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+
+        public ActionResult GetProduct(int id)
         {
-            return await _repository.GetProductByIdAsync(id);
+            try
+            {
+                var product =  _repository.GetProductById(id);
+                return product == null ? NotFound() : Ok(product);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, ex);
+            }
         }
+
+        [HttpGet("categories")]
+        [ProducesResponseType(typeof(ProductCategory), 200)]
+        [ProducesResponseType(500)]
+        public ActionResult GetProductCategories()
+        {
+            try
+            {
+                var categories = _repository.GetProductCategories();
+                return Ok(categories);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, ex);
+            }
+        }
+
+        //public async Task<ActionResult<List<Product>>> GetProducts()
+        //{
+        //    try
+        //    {
+        //        var products = await _repository.GetProductAsync();
+        //        return Ok(products);
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        return StatusCode(500, ex);
+        //    }
+        //}
+
+
+
+        //public async Task<ActionResult<Product>> GetProduct(int id) 
+        //{
+        //    try
+        //    {
+        //        return await _repository.GetProductByIdAsync(id);
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        return StatusCode(500, ex);
+        //    }
+        //}
     }
 }

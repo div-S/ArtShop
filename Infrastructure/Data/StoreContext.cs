@@ -22,6 +22,11 @@ namespace Infrastructure.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            modelBuilder.Entity<Product>()
+            .HasOne(p => p.ProductCategory)
+            .WithMany()
+            .HasForeignKey(p => p.ProductCategoryId);
         }
     }
 }

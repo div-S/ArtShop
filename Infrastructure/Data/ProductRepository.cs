@@ -1,6 +1,7 @@
 ﻿using Core.Entities;
 using Core.Interfaces;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 
 namespace Infrastructure.Data
 {
@@ -12,16 +13,48 @@ namespace Infrastructure.Data
         {
             this.context = context;
         }
-        public async Task<Product> GetProductByIdAsync(int id)
+        //public async Task<Product> GetProductByIdAsync(int id)
+        //{
+        //    return await context.Products.FindAsync(id);
+        //}
+
+        //public async Task<IReadOnlyList<Product>> GetProductAsync()
+        //{
+        //    return await context.Products.ToListAsync();
+        //}
+
+
+        public Product GetProductById(int id)
         {
-            return await context.Products.FindAsync(id);
+            var product = context.Products.Find(id);
+
+            if (product != null)
+            {
+                context.Entry(product).Reference(p => p.ProductCategory).Load();
+            }
+
+            return product;
+
+            //return context.Products.Include(p => p.ProductCategory).FirstOrDefault(p => p.Id == id);
         }
 
-        public async Task<IReadOnlyList<Product>> GetProductAsync()
+        public IReadOnlyList<Product> GetProduct()
         {
-            return await context.Products.ToListAsync();
+            var products = context.Products.ToList();
+
+            foreach (var product in products)
+            {
+                context.Entry(product).Reference(p => p.ProductCategory).Load();
+            }
+
+            return products;
+
+            //return context.Products.Include(p => p.ProductCategory).ToList();
         }
 
-       
+        public IReadOnlyList<ProductCategory> GetProductCategories()
+        {
+            return context.ProductCategories.ToList();
+        }
     }
 }
